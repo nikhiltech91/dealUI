@@ -1,0 +1,96 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+        </ng-template>
+
+    </p-toolbar>
+
+    <p-table #dt [value]="roleTitle" [rows]="10" [paginator]="true" [globalFilterFields]="['LocationName','ListedRole','HourlyRate']" [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="false">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="LocationName">Location Name
+                    <p-sortIcon field="LocationName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="ListedRole">Listed Role
+                    <p-sortIcon field="ListedRole"></p-sortIcon>
+                </th>
+                <th pSortableColumn="HourlyRate">Hourly Rate
+                    <p-sortIcon field="HourlyRate"></p-sortIcon>
+                </th>
+                <th pSortableColumn="action">Action
+                    <p-sortIcon field="action"></p-sortIcon>
+                </th>
+                <!--<th pSortableColumn="inventoryStatus">Status
+                    <p-sortIcon field="inventoryStatus"></p-sortIcon>
+                </th> -->
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-roleTitle>
+            <tr>
+                <td>{{roleTitle.LocationName}}</td>
+                <td>{{roleTitle.ListedRole}}</td>
+                <td>{{roleTitle.HourlyRate | currency:'USD'}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(roleTitle)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRoleMapping(roleTitle.RoleMappingID)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{roleTitle ? roleTitle.length : 0 }} roles.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" [header]="formTitle" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" [formGroup]="addform">
+        <div class="p-field">
+            <label for="LocationID">Location</label>
+            <ng-select id="LocationID" formControlName="LocationID" [items]="locationList" bindLabel="LocationName" bindValue="LocationID" [ngClass]="{ 'is-invalid': submitted && f.LocationID.errors }" placeholder="Select Location">
+            </ng-select>
+            <small class="p-invalid" *ngIf="submitted && f.LocationID.errors">Location is required.</small>
+            <!-- <div *ngIf="submitted && f.MappingID.errors" class="invalid-feedback">
+                <div *ngIf="f.MappingID.errors.required">Role is required</div>
+            </div> -->
+
+
+        </div>
+        <div class="p-field">
+            <label for="RoleName">Role Name</label>
+            <input type="text" id="RoleName" formControlName="RoleName" pInputText [ngClass]="{ 'is-invalid': submitted && f.RoleName.errors }" placeholder="Select Role Name">
+            <small class="p-invalid" *ngIf="submitted && f.RoleName.errors">Role is required.</small>
+        </div>
+
+        <div class="p-field p-col">
+            <label for="price">Price</label>
+            <p-inputNumber id="price" mode="currency" formControlName="HourlyRate" currency="USD" locale="en-US" [ngClass]="{ 'is-invalid': submitted && f.HourlyRate.errors }" placeholder="Select Role Name"></p-inputNumber>
+            <small class="p-invalid" *ngIf="submitted && f.HourlyRate.errors">Hourly rate is required.</small>
+        </div>
+
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button *ngIf="saveFormMode == 'new'" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveNewHourlyRate()"></button>
+
+        <button *ngIf="saveFormMode == 'edit'" pButton pRipple label="Update" icon="pi pi-check" class="p-button-text" (click)="updateRoleMapping()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

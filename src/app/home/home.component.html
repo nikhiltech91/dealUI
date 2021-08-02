@@ -1,0 +1,46 @@
+<div class="p-4">
+    <div class="container">
+        <div class="alert alert-success alert-dismissible" *ngIf="saveRateResponse == 'success'">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{saveRateResponseMessage}}</strong>
+        </div>
+        <div class="alert alert-danger alert-dismissible" *ngIf="saveRateResponse == 'error'">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{saveRateResponseMessage}}</strong>
+        </div>
+        <form class="form-inline" [formGroup]="form">
+            <ng-select class="rolesInput" formControlName="MappingID" [items]="roleTitle" bindLabel="TitleRole" bindValue="MappingID" [ngClass]="{ 'is-invalid': submitted && f.MappingID.errors }" placeholder="Select Role">
+            </ng-select>
+            <div *ngIf="submitted && f.MappingID.errors" class="invalid-feedback">
+                <div *ngIf="f.MappingID.errors.required">Role is required</div>
+            </div>
+
+            <input type="text" formControlName="HourlyRate" class="form-control rolesInput" [ngClass]="{ 'is-invalid': submitted && f.HourlyRate.errors }" placeholder="Enter Rate" />
+            <div *ngIf="submitted && f.HourlyRate.errors" class="invalid-feedback">
+                <div *ngIf="f.HourlyRate.errors.required">Rate is required</div>
+            </div>
+
+            <button (click)="saveNewHourlyRate()" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <br><br>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Role</th>
+                    <th class="text-center">Hourly Rate</th>
+                    <th class="text-center">Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hourlyRatesLists of hourlyRatesList">
+                    <td class="text-center">{{hourlyRatesLists.TitleRole}}</td>
+                    <td class="text-center">{{hourlyRatesLists.HourlyRate}}</td>
+                    <td class="text-center">{{hourlyRatesLists.Currency}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

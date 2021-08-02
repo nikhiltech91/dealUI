@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+/* Add application styles & imports to this file! */
+
+@import "@ng-select/ng-select/themes/default.theme.css";
+@import '../node_modules/primeicons/primeicons.css';
+@import '../node_modules/primeng/resources/themes/saga-blue/theme.css';
+@import '../node_modules/primeng/resources/primeng.min.css';
+a {
+    cursor: pointer
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”;
+}
+
+.app-container {
+    padding: 2em;
+    min-height: 320px;
+    overflow: hidden;
+}
+
+.btn-delete-user {
+    width: 40px;
+    text-align: center;
+    box-sizing: content-box;
+}
+
+.rolesInput {
+    margin: 20px;
+    width: 30%!important;
+}
