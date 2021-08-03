@@ -90,6 +90,7 @@ export class AdminComponent implements OnInit {
       .subscribe({
         next: (data) => {
           if (data.ResponseID == 105) {
+            this.titleroles();
             this.productDialog = false;
             this.submitted = false;
             this.messageService.add({
@@ -135,6 +136,7 @@ export class AdminComponent implements OnInit {
     this.accountService.delete(RoleMappingID).subscribe({
       next: (data) => {
         if (data.ResponseID == 107) {
+          this.titleroles();
           this.productDialog = false;
           this.submitted = false;
           this.messageService.add({
@@ -183,6 +185,7 @@ export class AdminComponent implements OnInit {
     this.accountService.saveHourlyRate(this.addform.value).subscribe({
       next: (data) => {
         if (data.ResponseID == 104) {
+          this.titleroles();
           this.productDialog = false;
           this.submitted = false;
           this.messageService.add({
